@@ -1,0 +1,14 @@
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        length = len(intervals)  # сохраняем длину списка в переменную
+        intervals = sorted(intervals, key=lambda x: x[1])  # сортировка списка по значению второго элемента из пары 
+        prev, cur = 0, 1  # указатели на нынешний и предыдущий элемент непрерываемой последовательности
+        droped = 0  # количество удалённых элементов
+        
+        while cur < length:  # перебираем весь список
+            if intervals[cur][0] < intervals[prev][1]:  # если первый элемент текущей пары меньше второго элемента предыдущей пары
+                droped += 1  # то удаляем нынешнюю пару
+            else:  # иначе
+                prev = cur  # переопределяем предыдущую пару как нынешнюю
+            cur+=1  # двигаемся вперёд по списку                  
+        return droped  # возвращаем удалённые элементы
