@@ -1,0 +1,28 @@
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        sol=[]  # список для результатов
+        d = {'2':['a', 'b', 'c'],
+        '3':['d', 'e', 'f'],
+        '4':['g', 'h', 'i'],
+        '5':['j', 'k', 'l'],
+        '6':['m', 'n', 'o'],
+        '7':['p', 'q', 'r', 's'],
+        '8':['t', 'u', 'v'],
+        '9':['w', 'x', 'y', 'z'],
+        }  # словарь с расшифровкой кнопок
+        k = len(digits)  #
+
+        if not k:  # если не нажали кнопки
+            return sol  # вернуть пустой список
+
+        def backtrack(lttr, remain, string):  # функция для добавления каждой буквы от следующего числа
+            if remain == 0:  # если это было последнее нажатие кнопки
+                sol.append(string)  # добавить строку в результат
+            else:  # иначе
+                for lttr in d[digits[k-remain]]:  # перебираем все буквы в кнопке
+                    new_string = string + lttr  # добавляем букву к временной строке
+                    backtrack(lttr, remain-1, new_string)  # вызываем функцию для следующей буквы
+            
+        for lttr in d[digits[0]]:  # перебираем буквы первой кнопки
+            backtrack(lttr, k-1, lttr)  # вызываем для каждой кнопки рекурсию
+        return sol   # возврвщаем результат
