@@ -1,0 +1,7 @@
+import pandas as pd
+
+def article_views(views: pd.DataFrame) -> pd.DataFrame:
+    result = views[views['author_id']==views['viewer_id']]  # фильтром находим только те строки, в которых одинаковые айди
+    result = result[['author_id']].rename(columns={'author_id': 'id'})  # колонку переименовываем в id
+    result = result.drop_duplicates()  # убираем дубликаты
+    return result.sort_values(by=['id'])  # сортируем по колонке
