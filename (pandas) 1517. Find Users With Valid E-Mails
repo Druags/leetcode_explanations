@@ -1,0 +1,14 @@
+import pandas as pd
+import re
+
+def check(email):
+    regex = r'^[A-Za-z][A-Za-z0-9_\.\-]*@leetcode(\?com)?\.com$' # регулярное выражение для проверки соответствия шаблону почту
+    if re.search(regex, email):
+        return True
+    else:
+        return False
+
+
+def valid_emails(users: pd.DataFrame) -> pd.DataFrame:
+    users = users[users['mail'].apply(check)] # применяем регулярное функцию по фильтрации к каждой строке и оставляем те, после которых функция вернула True
+    return users
