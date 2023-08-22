@@ -1,0 +1,5 @@
+import pandas as pd
+
+def find_patients(patients: pd.DataFrame) -> pd.DataFrame:
+    result = patients[[any([x.startswith('DIAB1') for x in con]) for con in patients['conditions'].str.split()]]
+    return result
