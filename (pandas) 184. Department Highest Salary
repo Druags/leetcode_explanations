@@ -1,0 +1,17 @@
+import pandas as pd
+
+def department_highest_salary(employee: pd.DataFrame, department: pd.DataFrame) -> pd.DataFrame:
+    if employee.empty or department.empty: # если одие из дф пустой, то возвращаем пустой дф
+        return pd.DataFrame(columns=['Department','Employee', 'Salary'])
+    
+    merged_df = employee.merge(department, left_on='departmentId', right_on='id', suffixes=('_employee', '_department')) # совмещаем две дф на основе колонок departmentId и id, добавляя к ним определённые окончания
+
+    highest_salary_df = merged_df.groupby('departmentId').apply(lambda x: x[x['salary'] == x['salary'].max()])  # группируем данные по лямбда функции
+    
+    highest_salary_df = highest_salary_df.reset_index(drop=True)  # сбрасываем дупликаты колонки departmentId и восстанавливаем индекс
+    
+    result_df = highest_salary_df[['name_department', 'name_employee', 'salary']]  # оставляем только требуемые колонки
+    
+    result_df.columns = ['Department','Employee', 'Salary']  # переименовываем колонки в требуемый вид
+    
+    return result_df
