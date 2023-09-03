@@ -1,0 +1,11 @@
+import pandas as pd
+
+def count_unique_subjects(teacher: pd.DataFrame) -> pd.DataFrame:
+
+    teacher_sum = teacher.drop_duplicates(['teacher_id', 'subject_id'])
+    # print(teacher_sum['teacher_id'].value_counts())
+    teacher_sum['cnt'] = teacher_sum.groupby('teacher_id')['teacher_id'].transform('count')
+    return teacher_sum[['teacher_id', 'cnt']].drop_duplicates('teacher_id')
+
+def count_unique_subjects(teacher: pd.DataFrame) -> pd.DataFrame:
+   return  teacher.groupby('teacher_id').agg({'subject_id':'nunique'}).rename(columns={'subject_id':'cnt'}).reset_index()
