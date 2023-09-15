@@ -1,0 +1,11 @@
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+
+        cur_hold, cur_not_hold = -float('inf'), 0 # определяем переменные, которые отвечают за ситуации, в которых акция куплена или продана
+        
+        for stock_price in prices: 
+            prev_hold, prev_not_hold = cur_hold, cur_not_hold # определяем переменные, которые отвечают за ситуацию, в которых акция была куплена/не куплена в прошлый день
+            cur_hold = max( prev_hold, prev_not_hold - stock_price ) # определяем, что выгодней: держать акцию или купить новую, если прошлую продали
+            cur_not_hold = max( prev_not_hold, prev_hold + stock_price ) # определяем, что выгодней: не покупать акцию или продать имеющуюся акцию
+
+        return cur_not_hold
